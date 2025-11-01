@@ -94,11 +94,52 @@ def generate_launch_description():
         parameters=[{'use_sim_time': use_sim_time}]
     )
 
-    effort_spawner = Node(
+    # Spawn effort controllers for each leg
+    effort_spawner_leg_1 = Node(
         package='controller_manager', 
         executable='spawner', 
-        name='spawner_effort_controller',
-        arguments=['effort_controller', '--controller-manager', '/controller_manager'],
+        name='spawner_effort_controller_leg_1',
+        arguments=['effort_controller_leg_1', '--controller-manager', '/controller_manager'],
+        parameters=[{'use_sim_time': use_sim_time}]
+    )
+
+    effort_spawner_leg_2 = Node(
+        package='controller_manager', 
+        executable='spawner', 
+        name='spawner_effort_controller_leg_2',
+        arguments=['effort_controller_leg_2', '--controller-manager', '/controller_manager'],
+        parameters=[{'use_sim_time': use_sim_time}]
+    )
+
+    effort_spawner_leg_3 = Node(
+        package='controller_manager', 
+        executable='spawner', 
+        name='spawner_effort_controller_leg_3',
+        arguments=['effort_controller_leg_3', '--controller-manager', '/controller_manager'],
+        parameters=[{'use_sim_time': use_sim_time}]
+    )
+
+    effort_spawner_leg_4 = Node(
+        package='controller_manager', 
+        executable='spawner', 
+        name='spawner_effort_controller_leg_4',
+        arguments=['effort_controller_leg_4', '--controller-manager', '/controller_manager'],
+        parameters=[{'use_sim_time': use_sim_time}]
+    )
+
+    effort_spawner_leg_5 = Node(
+        package='controller_manager', 
+        executable='spawner', 
+        name='spawner_effort_controller_leg_5',
+        arguments=['effort_controller_leg_5', '--controller-manager', '/controller_manager'],
+        parameters=[{'use_sim_time': use_sim_time}]
+    )
+
+    effort_spawner_leg_6 = Node(
+        package='controller_manager', 
+        executable='spawner', 
+        name='spawner_effort_controller_leg_6',
+        arguments=['effort_controller_leg_6', '--controller-manager', '/controller_manager'],
         parameters=[{'use_sim_time': use_sim_time}]
     )
 
@@ -144,11 +185,18 @@ def generate_launch_description():
                 on_exit=[jsb_spawner]
             )
         ),
-        # After joint_state_broadcaster is active, start the effort controller
+        # After joint_state_broadcaster is active, start ALL effort controllers
         RegisterEventHandler(
             event_handler=OnProcessExit(
                 target_action=jsb_spawner,
-                on_exit=[effort_spawner]
+                on_exit=[
+                    effort_spawner_leg_1,
+                    effort_spawner_leg_2,
+                    effort_spawner_leg_3,
+                    effort_spawner_leg_4,
+                    effort_spawner_leg_5,
+                    effort_spawner_leg_6
+                ]
             )
         ),
         rviz

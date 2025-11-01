@@ -27,9 +27,13 @@ ament_python_install_package(${PROJECT_NAME})
 
 # Install Python executables
 install(PROGRAMS
-  scripts/forward_kinematic.py
+  scripts/forward_position_kinematic.py
   scripts/gait_planning.py
-  scripts/inverse_kinematic.py
+  scripts/inverse_position_kinematic.py
+  scripts/inverse_velocity_kinematic.py
+  scripts/joint_state_splitter.py
+  scripts/pid_position_controller.py
+  scripts/pid_velocity_controller.py
   scripts/set_point.py
   scripts/state_controller.py
   scripts/trajectory_planning.py
@@ -53,6 +57,7 @@ install(TARGETS
 ################ INSTALL LAUNCH, ETC #################
 install(DIRECTORY
 launch
+config
   # add directories here
   DESTINATION share/${PROJECT_NAME})
 
