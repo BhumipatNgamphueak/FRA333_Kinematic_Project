@@ -1,3 +1,4 @@
+# reference
 
 """Trajectory generator combining trapezoidal (SUVAT) profiles with cubic-Hermite interpolation.
 
