@@ -61,18 +61,11 @@ class GaitPlanner(Node):
         self.cmd_vel_sub = self.create_subscription(
             Twist, '/cmd_vel', self.cmd_vel_callback, 10)
         
-        # OUTPUT: Publishers
+        # OUTPUT: Publishers (only gait parameters and body velocity)
         self.gait_params_pub = self.create_publisher(
-            Float64MultiArray, 'gait_parameters', 10)
+            Float64MultiArray, '/hexapod/gait_parameters', 10)
         self.body_vel_pub = self.create_publisher(
-            Twist, 'body_velocity', 10)
-        
-        # Setpoint publishers for each leg
-        self.leg_setpoint_pubs = []
-        for leg_id in range(1, self.num_legs + 1):
-            pub = self.create_publisher(
-                PointStamped, f'leg_{leg_id}/end_effector_setpoint', 10)
-            self.leg_setpoint_pubs.append(pub)
+            Twist, '/hexapod/body_velocity', 10)
         
         # Timer - 10 Hz
         self.timer = self.create_timer(self.dt, self.publish_gait)
@@ -174,7 +167,7 @@ class GaitPlanner(Node):
         return 0.0
     
     def publish_gait(self):
-        """OUTPUT: Publish gait parameters and leg setpoints - 10 Hz"""
+        """OUTPUT: Publish gait parameters and body velocity - 10 Hz"""
         # Filter velocity
         self._filter_velocity()
         
@@ -210,44 +203,11 @@ class GaitPlanner(Node):
         # Publish filtered body velocity
         self.body_vel_pub.publish(self.filtered_velocity)
         
-        # Generate and publish leg setpoints based on phase
-        self._publish_leg_setpoints(step_length, cycle_time, duty_factor)
-        
-        # Update gait phase
-        self.gait_phase += self.dt / cycle_time
-        if self.gait_phase >= 1.0:
-            self.gait_phase -= 1.0
-        
         self.get_logger().debug(
             f'Gait: {gait_config["name"]}, step_length: {step_length:.3f}, '
-            f'cycle_time: {cycle_time:.3f}, phase: {self.gait_phase:.3f}'
+            f'cycle_time: {cycle_time:.3f}, duty_factor: {duty_factor:.3f}'
         )
     
-    def _publish_leg_setpoints(self, step_length, cycle_time, duty_factor):
-        """Generate and publish setpoints for each leg"""
-        # Generate gait path waypoints
-        waypoints = self._generate_gait_path(step_length, self.step_height, self.num_waypoints)
-        
-        # Publish setpoint for each leg based on its phase
-        for leg_id in range(1, self.num_legs + 1):
-            phase_offset = self._get_leg_phase_offset(leg_id, self.current_gait_type)
-            leg_phase = (self.gait_phase + phase_offset) % 1.0
-            
-            # Determine which waypoint to use based on phase
-            waypoint_idx = int(leg_phase * len(waypoints)) % len(waypoints)
-            waypoint = waypoints[waypoint_idx]
-            
-            # Create and publish setpoint message
-            setpoint_msg = PointStamped()
-            setpoint_msg.header.stamp = self.get_clock().now().to_msg()
-            setpoint_msg.header.frame_id = f'leg_{leg_id}_base'
-            setpoint_msg.point.x = float(waypoint[0])
-            setpoint_msg.point.y = float(waypoint[1])
-            setpoint_msg.point.z = float(waypoint[2])
-            
-            self.leg_setpoint_pubs[leg_id - 1].publish(setpoint_msg)
-
-
 def main(args=None):
     rclpy.init(args=args)
     node = GaitPlanner()
