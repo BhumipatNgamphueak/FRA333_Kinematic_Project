@@ -45,7 +45,7 @@ sleep 1
 
 # 5. Velocity PID Controller (inner loop with feedforward)
 echo "[5/6] Starting Velocity PID Controller (Inner Loop)..."
-ros2 run hexapod pid_velocity_controller.py --ros-args -p leg_id:=1 -r __ns:=/hexapod/leg_1 &
+ros2 run hexapod pid_velocity_controller.py --ros-args -p leg_id:=1 -r __ns:=/hexapod/leg_1 -r commands:=/effort_controller_leg_1/commands &
 VEL_PID=$!
 sleep 1
 

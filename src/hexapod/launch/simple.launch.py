@@ -250,10 +250,10 @@ def generate_launch_description():
                 parameters=[{
                     'leg_id': leg_id,
                     'use_sim_time': LaunchConfiguration('use_sim_time'),
-                    'position_kp': [10.0, 10.0, 10.0],
-                    'position_ki': [0.1, 0.1, 0.1],
-                    'position_kd': [1.0, 1.0, 1.0],
-                    'velocity_limit': 5.0,
+                    'position_kp': [30.0, 30.0, 30.0],  # Tuned: increased from 20.0 for faster response
+                    'position_ki': [0.5, 0.5, 0.5],  # Tuned: increased from 0.1 to reduce steady-state error
+                    'position_kd': [3.0, 3.0, 3.0],  # Tuned: increased from 2.0 for better damping
+                    'velocity_limit': 10.0,  # Tuned: increased from 5.0 to allow faster motion
                     'control_rate': 100.0,
                 }],
                 remappings=[
@@ -279,10 +279,10 @@ def generate_launch_description():
                 parameters=[{
                     'leg_id': leg_id,
                     'use_sim_time': LaunchConfiguration('use_sim_time'),
-                    'velocity_kp': [5.0, 5.0, 5.0],
-                    'velocity_ki': [0.5, 0.5, 0.5],
-                    'velocity_kd': [0.1, 0.1, 0.1],
-                    'effort_limit': 10.0,
+                    'velocity_kp': [15.0, 15.0, 15.0],  # Tuned: increased from 10.0 for stronger control
+                    'velocity_ki': [1.0, 1.0, 1.0],  # Tuned: increased from 0.5 to eliminate steady-state error
+                    'velocity_kd': [1.0, 1.0, 1.0],  # Tuned: increased from 0.5 for better damping
+                    'effort_limit': 24.0,  # Matched to URDF joint_effort limit
                     'control_rate': 100.0,
                 }],
                 remappings=[

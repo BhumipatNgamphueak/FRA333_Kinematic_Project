@@ -1,0 +1,12 @@
+/home/oat/Desktop/FRA333_Kinematic_Project/build/hexapod_simulation/CMakeFiles/uninstall.dir
+/home/oat/Desktop/FRA333_Kinematic_Project/build/hexapod_simulation/CMakeFiles/hexapod_simulation_uninstall.dir
+/home/oat/Desktop/FRA333_Kinematic_Project/build/hexapod_simulation/CMakeFiles/ament_cmake_python_symlink_hexapod_simulation.dir
+/home/oat/Desktop/FRA333_Kinematic_Project/build/hexapod_simulation/CMakeFiles/ament_cmake_python_build_hexapod_simulation_egg.dir
+/home/oat/Desktop/FRA333_Kinematic_Project/build/hexapod_simulation/CMakeFiles/cpp_node_test.dir
+/home/oat/Desktop/FRA333_Kinematic_Project/build/hexapod_simulation/CMakeFiles/test.dir
+/home/oat/Desktop/FRA333_Kinematic_Project/build/hexapod_simulation/CMakeFiles/edit_cache.dir
+/home/oat/Desktop/FRA333_Kinematic_Project/build/hexapod_simulation/CMakeFiles/rebuild_cache.dir
+/home/oat/Desktop/FRA333_Kinematic_Project/build/hexapod_simulation/CMakeFiles/list_install_components.dir
+/home/oat/Desktop/FRA333_Kinematic_Project/build/hexapod_simulation/CMakeFiles/install.dir
+/home/oat/Desktop/FRA333_Kinematic_Project/build/hexapod_simulation/CMakeFiles/install/local.dir
+/home/oat/Desktop/FRA333_Kinematic_Project/build/hexapod_simulation/CMakeFiles/install/strip.dir

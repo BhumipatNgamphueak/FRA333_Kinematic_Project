@@ -6,6 +6,16 @@
     <xacro:include filename="$(find hexapod_description)/robot/visual/robot_material.xacro" />
     <xacro:include filename="$(find hexapod_description)/robot/visual/gazebo_full.xacro" />
 
+    <!-- WORLD LINK (for fixing base_link in space) -->
+    <link name="world"/>
+
+    <!-- FIXED JOINT: Lock base_link to world frame -->
+    <joint name="world_to_base" type="fixed">
+        <origin xyz="0 0 0.3" rpy="0 0 0" />  <!-- Fix base at 0.3m height -->
+        <parent link="world" />
+        <child link="base_link" />
+    </joint>
+
     <!-- BASE LINK -->
     <link name="base_link">
         <inertial>

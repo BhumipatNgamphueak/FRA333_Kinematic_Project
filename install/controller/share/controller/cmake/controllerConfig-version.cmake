@@ -1,0 +1,1 @@
+/home/oat/Desktop/FRA333_Kinematic_Project/build/controller/ament_cmake_core/controllerConfig-version.cmake

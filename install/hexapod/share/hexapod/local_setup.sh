@@ -1,0 +1,1 @@
+/home/oat/Desktop/FRA333_Kinematic_Project/build/hexapod/ament_cmake_environment_hooks/local_setup.sh

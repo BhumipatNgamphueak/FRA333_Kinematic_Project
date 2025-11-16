@@ -1,0 +1,4 @@
+Invoking command in '/home/oat/Desktop/FRA333_Kinematic_Project/build/controller': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/oat/Desktop/FRA333_Kinematic_Project/build/controller -- -j20 -l20
+Invoked command in '/home/oat/Desktop/FRA333_Kinematic_Project/build/controller' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/oat/Desktop/FRA333_Kinematic_Project/build/controller -- -j20 -l20
+Invoking command in '/home/oat/Desktop/FRA333_Kinematic_Project/build/controller': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /home/oat/Desktop/FRA333_Kinematic_Project/build/controller
+Invoked command in '/home/oat/Desktop/FRA333_Kinematic_Project/build/controller' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /home/oat/Desktop/FRA333_Kinematic_Project/build/controller

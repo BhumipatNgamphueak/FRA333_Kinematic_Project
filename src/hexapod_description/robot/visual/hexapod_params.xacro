@@ -32,20 +32,20 @@
     <xacro:property name="end_effector_joint_y" value="-0.00094278"/>
     
     <!-- JOINT LIMITS (radians) -->
-    <xacro:property name="joint_effort" value="10.0"/>
-    <xacro:property name="joint_velocity" value="5.0"/>
-    
-    <!-- Hip joint limits -->
-    <xacro:property name="hip_lower_limit" value="-1.57"/>
-    <xacro:property name="hip_upper_limit" value="1.57"/>
-    
-    <!-- Knee joint limits -->
-    <xacro:property name="knee_lower_limit" value="-2.0"/>
-    <xacro:property name="knee_upper_limit" value="2.0"/>
-    
-    <!-- Ankle joint limits -->
-    <xacro:property name="ankle_lower_limit" value="-1.57"/>
-    <xacro:property name="ankle_upper_limit" value="1.57"/>
+    <xacro:property name="joint_effort" value="24.0"/>  <!-- Increased to 24 Nm -->
+    <xacro:property name="joint_velocity" value="10.0"/>  <!-- Increased to 10 rad/s -->
+
+    <!-- Hip joint limits: ±60° (120° total) to prevent collision with baselink -->
+    <xacro:property name="hip_lower_limit" value="-1.047"/>
+    <xacro:property name="hip_upper_limit" value="1.047"/>
+
+    <!-- Knee joint limits: ±45° (90° total) -->
+    <xacro:property name="knee_lower_limit" value="-0.785"/>
+    <xacro:property name="knee_upper_limit" value="0.785"/>
+
+    <!-- Ankle joint limits: ±45° (90° total) -->
+    <xacro:property name="ankle_lower_limit" value="-0.785"/>
+    <xacro:property name="ankle_upper_limit" value="0.785"/>
     
     <!-- JOINT DYNAMICS -->
     <!-- Hip joint -->

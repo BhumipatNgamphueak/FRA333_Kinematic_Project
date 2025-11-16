@@ -1,0 +1,63 @@
+[0.010s] Invoking command in '/home/oat/Desktop/FRA333_Kinematic_Project/build/hexapod_simulation': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /home/oat/Desktop/FRA333_Kinematic_Project/src/hexapod_simulation -DCMAKE_INSTALL_PREFIX=/home/oat/Desktop/FRA333_Kinematic_Project/install/hexapod_simulation
+[0.023s] -- Found ament_cmake: 1.3.12 (/opt/ros/humble/share/ament_cmake/cmake)
+[0.156s] -- Override CMake install command with custom implementation using symlinks instead of copying resources
+[0.163s] -- Found rclcpp: 16.0.15 (/opt/ros/humble/share/rclcpp/cmake)
+[0.194s] -- Found rosidl_generator_c: 3.1.7 (/opt/ros/humble/share/rosidl_generator_c/cmake)
+[0.197s] -- Found rosidl_adapter: 3.1.7 (/opt/ros/humble/share/rosidl_adapter/cmake)
+[0.204s] -- Found rosidl_generator_cpp: 3.1.7 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)
+[0.213s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[0.226s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[0.259s] -- Found rmw_implementation_cmake: 6.1.2 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)
+[0.260s] -- Found rmw_fastrtps_cpp: 6.2.8 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)
+[0.367s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[0.415s] -- Found rclpy: 3.3.17 (/opt/ros/humble/share/rclpy/cmake)
+[0.585s] -- Configuring done
+[0.593s] -- Generating done
+[0.597s] -- Build files have been written to: /home/oat/Desktop/FRA333_Kinematic_Project/build/hexapod_simulation
+[0.603s] Invoked command in '/home/oat/Desktop/FRA333_Kinematic_Project/build/hexapod_simulation' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /home/oat/Desktop/FRA333_Kinematic_Project/src/hexapod_simulation -DCMAKE_INSTALL_PREFIX=/home/oat/Desktop/FRA333_Kinematic_Project/install/hexapod_simulation
+[0.607s] Invoking command in '/home/oat/Desktop/FRA333_Kinematic_Project/build/hexapod_simulation': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/oat/Desktop/FRA333_Kinematic_Project/build/hexapod_simulation -- -j20 -l20
+[0.643s] Consolidate compiler generated dependencies of target cpp_node_test
+[0.654s] [100%] Built target cpp_node_test
+[0.659s] [100%] Built target ament_cmake_python_symlink_hexapod_simulation
+[0.872s] running egg_info
+[0.873s] writing hexapod_simulation.egg-info/PKG-INFO
+[0.873s] writing dependency_links to hexapod_simulation.egg-info/dependency_links.txt
+[0.873s] writing top-level names to hexapod_simulation.egg-info/top_level.txt
+[0.875s] reading manifest file 'hexapod_simulation.egg-info/SOURCES.txt'
+[0.875s] writing manifest file 'hexapod_simulation.egg-info/SOURCES.txt'
+[0.900s] [100%] Built target ament_cmake_python_build_hexapod_simulation_egg
+[0.910s] Invoked command in '/home/oat/Desktop/FRA333_Kinematic_Project/build/hexapod_simulation' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/oat/Desktop/FRA333_Kinematic_Project/build/hexapod_simulation -- -j20 -l20
+[0.919s] Invoking command in '/home/oat/Desktop/FRA333_Kinematic_Project/build/hexapod_simulation': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/oat/Desktop/FRA333_Kinematic_Project/build/hexapod_simulation
+[0.926s] -- Install configuration: ""
+[0.926s] -- Execute custom install script
+[0.926s] -- Up-to-date symlink: /home/oat/Desktop/FRA333_Kinematic_Project/install/hexapod_simulation/share/hexapod_simulation/environment/pythonpath.sh
+[0.926s] -- Up-to-date symlink: /home/oat/Desktop/FRA333_Kinematic_Project/install/hexapod_simulation/share/hexapod_simulation/environment/pythonpath.dsv
+[0.927s] -- Up-to-date symlink: /home/oat/Desktop/FRA333_Kinematic_Project/install/hexapod_simulation/local/lib/python3.10/dist-packages/hexapod_simulation-0.0.0-py3.10.egg-info/PKG-INFO
+[0.927s] -- Up-to-date symlink: /home/oat/Desktop/FRA333_Kinematic_Project/install/hexapod_simulation/local/lib/python3.10/dist-packages/hexapod_simulation-0.0.0-py3.10.egg-info/SOURCES.txt
+[0.927s] -- Up-to-date symlink: /home/oat/Desktop/FRA333_Kinematic_Project/install/hexapod_simulation/local/lib/python3.10/dist-packages/hexapod_simulation-0.0.0-py3.10.egg-info/dependency_links.txt
+[0.927s] -- Up-to-date symlink: /home/oat/Desktop/FRA333_Kinematic_Project/install/hexapod_simulation/local/lib/python3.10/dist-packages/hexapod_simulation-0.0.0-py3.10.egg-info/top_level.txt
+[0.927s] -- Up-to-date symlink: /home/oat/Desktop/FRA333_Kinematic_Project/install/hexapod_simulation/local/lib/python3.10/dist-packages/hexapod_simulation/__init__.py
+[0.927s] -- Up-to-date symlink: /home/oat/Desktop/FRA333_Kinematic_Project/install/hexapod_simulation/local/lib/python3.10/dist-packages/hexapod_simulation/dummy_module.py
+[0.927s] -- Up-to-date symlink: /home/oat/Desktop/FRA333_Kinematic_Project/install/hexapod_simulation/lib/hexapod_simulation/dummy_script.py
+[0.927s] -- Up-to-date symlink: /home/oat/Desktop/FRA333_Kinematic_Project/install/hexapod_simulation/lib/hexapod_simulation/cpp_node_test
+[0.928s] -- Up-to-date symlink: /home/oat/Desktop/FRA333_Kinematic_Project/install/hexapod_simulation/share/hexapod_simulation/config/controller_full.yaml
+[0.928s] -- Up-to-date symlink: /home/oat/Desktop/FRA333_Kinematic_Project/install/hexapod_simulation/share/hexapod_simulation/launch/simulation-full.launch.py
+[0.928s] -- Up-to-date symlink: /home/oat/Desktop/FRA333_Kinematic_Project/install/hexapod_simulation/share/hexapod_simulation/rviz/config.rviz
+[0.928s] -- Up-to-date symlink: /home/oat/Desktop/FRA333_Kinematic_Project/install/hexapod_simulation/share/hexapod_simulation/rviz/display.rviz
+[0.928s] -- Up-to-date symlink: /home/oat/Desktop/FRA333_Kinematic_Project/install/hexapod_simulation/share/ament_index/resource_index/package_run_dependencies/hexapod_simulation
+[0.928s] -- Up-to-date symlink: /home/oat/Desktop/FRA333_Kinematic_Project/install/hexapod_simulation/share/ament_index/resource_index/parent_prefix_path/hexapod_simulation
+[0.928s] -- Up-to-date symlink: /home/oat/Desktop/FRA333_Kinematic_Project/install/hexapod_simulation/share/hexapod_simulation/environment/ament_prefix_path.sh
+[0.929s] -- Up-to-date symlink: /home/oat/Desktop/FRA333_Kinematic_Project/install/hexapod_simulation/share/hexapod_simulation/environment/ament_prefix_path.dsv
+[0.929s] -- Up-to-date symlink: /home/oat/Desktop/FRA333_Kinematic_Project/install/hexapod_simulation/share/hexapod_simulation/environment/path.sh
+[0.929s] -- Up-to-date symlink: /home/oat/Desktop/FRA333_Kinematic_Project/install/hexapod_simulation/share/hexapod_simulation/environment/path.dsv
+[0.929s] -- Up-to-date symlink: /home/oat/Desktop/FRA333_Kinematic_Project/install/hexapod_simulation/share/hexapod_simulation/local_setup.bash
+[0.929s] -- Up-to-date symlink: /home/oat/Desktop/FRA333_Kinematic_Project/install/hexapod_simulation/share/hexapod_simulation/local_setup.sh
+[0.929s] -- Up-to-date symlink: /home/oat/Desktop/FRA333_Kinematic_Project/install/hexapod_simulation/share/hexapod_simulation/local_setup.zsh
+[0.929s] -- Up-to-date symlink: /home/oat/Desktop/FRA333_Kinematic_Project/install/hexapod_simulation/share/hexapod_simulation/local_setup.dsv
+[0.929s] -- Symlinking: /home/oat/Desktop/FRA333_Kinematic_Project/install/hexapod_simulation/share/hexapod_simulation/package.dsv
+[0.938s] -- Up-to-date symlink: /home/oat/Desktop/FRA333_Kinematic_Project/install/hexapod_simulation/share/ament_index/resource_index/packages/hexapod_simulation
+[0.938s] -- Up-to-date symlink: /home/oat/Desktop/FRA333_Kinematic_Project/install/hexapod_simulation/share/hexapod_simulation/cmake/hexapod_simulationConfig.cmake
+[0.938s] -- Up-to-date symlink: /home/oat/Desktop/FRA333_Kinematic_Project/install/hexapod_simulation/share/hexapod_simulation/cmake/hexapod_simulationConfig-version.cmake
+[0.938s] -- Up-to-date symlink: /home/oat/Desktop/FRA333_Kinematic_Project/install/hexapod_simulation/share/hexapod_simulation/package.xml
+[0.969s] Listing '/home/oat/Desktop/FRA333_Kinematic_Project/install/hexapod_simulation/local/lib/python3.10/dist-packages/hexapod_simulation'...
+[0.975s] Invoked command in '/home/oat/Desktop/FRA333_Kinematic_Project/build/hexapod_simulation' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/oat/Desktop/FRA333_Kinematic_Project/build/hexapod_simulation
