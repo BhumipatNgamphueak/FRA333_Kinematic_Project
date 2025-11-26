@@ -237,10 +237,10 @@ class TrajectoryGenerator(Node):
             self.current_position = self.current_setpoint
             self.current_velocity = np.array([0.0, 0.0, 0.0])
         
-        # Publish interpolated target position
+        # Publish interpolated target position (FIXED: base_link frame)
         target_msg = PointStamped()
         target_msg.header.stamp = self.get_clock().now().to_msg()
-        target_msg.header.frame_id = f'leg_{self.leg_id}_base'
+        target_msg.header.frame_id = 'base_link'  # FIXED: was f'leg_{self.leg_id}_base'
         target_msg.point.x = float(self.current_position[0])
         target_msg.point.y = float(self.current_position[1])
         target_msg.point.z = float(self.current_position[2])

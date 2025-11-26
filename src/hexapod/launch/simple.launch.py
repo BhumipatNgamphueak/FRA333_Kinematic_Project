@@ -1,13 +1,16 @@
 #!/usr/bin/env python3
 """
-Hexapod Control Launch File - FIXED VERSION
-Launches all nodes for hexapod control system with proper sequencing
+Hexapod Control Launch File - FIXED SYNCHRONIZED STARTUP
 
-FIXES:
-1. Added TimerAction delays to ensure simulation is ready
-2. Start joint_state_splitter first (critical dependency)
-3. Staggered leg controller startup
-4. Added proper parameter handling
+CRITICAL FIX: All leg controllers start at the SAME TIME (4.0s)
+Previously: Staggered 4.0s, 4.5s, 5.0s... ❌
+Now: All at 4.0s ✅
+
+TIMING SEQUENCE:
+  0.0s: Simulation starts
+  2.0s: Joint state splitter (CRITICAL - must be first!)
+  3.0s: Global nodes (gait planner, state machine)
+  4.0s: ALL 6 legs simultaneously ✅
 """
 
 from launch import LaunchDescription
@@ -28,14 +31,13 @@ def generate_launch_description():
     num_legs_arg = DeclareLaunchArgument(
         'num_legs',
         default_value='6',
-        description='Number of legs to launch (1-6, use 1 for testing)'
+        description='Number of legs'
     )
     
     nodes_to_launch = []
     
     # =================================================================
-    # CRITICAL: Joint State Splitter MUST start first (at 2 seconds)
-    # This node is essential as it provides joint states to all other nodes
+    # CRITICAL: Joint State Splitter FIRST at 2s
     # =================================================================
     
     joint_splitter = Node(
@@ -46,7 +48,6 @@ def generate_launch_description():
         output='screen',
         parameters=[{
             'use_sim_time': LaunchConfiguration('use_sim_time'),
-            # Joint names for each leg (matching URDF)
             'leg_1_joints': ['hip_joint_1', 'knee_joint_1', 'ankle_joint_1'],
             'leg_2_joints': ['hip_joint_2', 'knee_joint_2', 'ankle_joint_2'],
             'leg_3_joints': ['hip_joint_3', 'knee_joint_3', 'ankle_joint_3'],
@@ -59,17 +60,15 @@ def generate_launch_description():
         ],
     )
     
-    # Start joint_state_splitter after 2 seconds (wait for simulation + controllers)
     nodes_to_launch.append(TimerAction(
         period=2.0,
         actions=[joint_splitter]
     ))
     
     # =================================================================
-    # GLOBAL NODES (start at 3 seconds - after joint splitter)
+    # GLOBAL NODES at 3s
     # =================================================================
     
-    # 1. Gait Planner
     gait_planner = Node(
         package='hexapod',
         executable='gait_planning.py',
@@ -93,7 +92,6 @@ def generate_launch_description():
         ],
     )
     
-    # 2. State Machine
     state_machine = Node(
         package='hexapod',
         executable='state_controller.py',
@@ -103,13 +101,6 @@ def generate_launch_description():
         parameters=[{
             'use_sim_time': LaunchConfiguration('use_sim_time'),
             'control_rate': 50.0,
-            # Phase offsets for tripod gait
-            'leg_1_phase_offset': 0.0,
-            'leg_2_phase_offset': 0.5,
-            'leg_3_phase_offset': 0.0,
-            'leg_4_phase_offset': 0.5,
-            'leg_5_phase_offset': 0.0,
-            'leg_6_phase_offset': 0.5,
         }],
         remappings=[
             ('gait_parameters', '/hexapod/gait_parameters'),
@@ -117,31 +108,25 @@ def generate_launch_description():
         ],
     )
     
-    # Start global nodes at 3 seconds
     nodes_to_launch.append(TimerAction(
         period=3.0,
         actions=[gait_planner, state_machine]
     ))
     
     # =================================================================
-    # PER-LEG NODES (7 nodes × 6 legs = 42 nodes)
-    # Start each leg's nodes at staggered times to avoid overwhelming the system
+    # ALL LEGS START SIMULTANEOUSLY at 4.0s ✅
     # =================================================================
     
-    # Leg 1 starts at 4 seconds
+    all_leg_nodes = []  # Collect ALL leg nodes here
+    
     for leg_id in range(1, 7):
         
         leg_ns = f'hexapod/leg_{leg_id}'
         
-        # Calculate delay: Leg 1 at 4s, Leg 2 at 4.5s, Leg 3 at 5s, etc.
-        leg_start_delay = 4.0 + (leg_id - 1) * 0.5
-        
-        leg_nodes = []
-        
         # -----------------------------------------------------------
         # Set Point Generator
         # -----------------------------------------------------------
-        leg_nodes.append(
+        all_leg_nodes.append(
             Node(
                 package='hexapod',
                 executable='set_point.py',
@@ -167,7 +152,7 @@ def generate_launch_description():
         # -----------------------------------------------------------
         # Trajectory Generator
         # -----------------------------------------------------------
-        leg_nodes.append(
+        all_leg_nodes.append(
             Node(
                 package='hexapod',
                 executable='trajectory_planning.py',
@@ -193,7 +178,7 @@ def generate_launch_description():
         # -----------------------------------------------------------
         # Inverse Position Kinematics
         # -----------------------------------------------------------
-        leg_nodes.append(
+        all_leg_nodes.append(
             Node(
                 package='hexapod',
                 executable='inverse_position_kinematic.py',
@@ -203,10 +188,11 @@ def generate_launch_description():
                 parameters=[{
                     'leg_id': leg_id,
                     'use_sim_time': LaunchConfiguration('use_sim_time'),
-                    'max_iterations': 100,
+                    'max_iterations': 15,
                     'tolerance': 0.001,
-                    'use_analytical_ik': True,
-                    'use_numerical_ik': True,  # Use numerical IK for accuracy
+                    'use_numerical_ik': True,
+                    'enforce_joint_limits': True,  # NEW: Joint limit enforcement
+                    'clamp_to_limits': False,      # NEW: Reject invalid solutions
                 }],
                 remappings=[
                     ('joint_states', f'/hexapod/leg_{leg_id}/joint_states'),
@@ -219,7 +205,7 @@ def generate_launch_description():
         # -----------------------------------------------------------
         # Inverse Velocity Kinematics
         # -----------------------------------------------------------
-        leg_nodes.append(
+        all_leg_nodes.append(
             Node(
                 package='hexapod',
                 executable='inverse_velocity_kinematic.py',
@@ -243,7 +229,7 @@ def generate_launch_description():
         # -----------------------------------------------------------
         # Position PID Controller
         # -----------------------------------------------------------
-        leg_nodes.append(
+        all_leg_nodes.append(
             Node(
                 package='hexapod',
                 executable='pid_position_controller.py',
@@ -253,12 +239,14 @@ def generate_launch_description():
                 parameters=[{
                     'leg_id': leg_id,
                     'use_sim_time': LaunchConfiguration('use_sim_time'),
-                    'position_kp': [30.0, 30.0, 30.0],
-                    'position_ki': [0.5, 0.5, 0.5],
-                    'position_kd': [3.0, 3.0, 3.0],
+                    'position_kp': [12.5, 12.5, 10.0],
+                    'position_ki': [0.5, 0.5, 1.0],
+                    'position_kd': [0.5, 0.5, 0.75],
                     'velocity_limit': 10.0,
                     'control_rate': 100.0,
                     'integral_limit': 2.0,
+                    'use_angle_wrapping': True,       # NEW: Angle wrap-around
+                    'enforce_joint_limits': True,     # NEW: Joint limit enforcement
                 }],
                 remappings=[
                     ('joint_states', f'/hexapod/leg_{leg_id}/joint_states'),
@@ -271,7 +259,7 @@ def generate_launch_description():
         # -----------------------------------------------------------
         # Velocity PID Controller
         # -----------------------------------------------------------
-        leg_nodes.append(
+        all_leg_nodes.append(
             Node(
                 package='hexapod',
                 executable='pid_velocity_controller.py',
@@ -281,13 +269,15 @@ def generate_launch_description():
                 parameters=[{
                     'leg_id': leg_id,
                     'use_sim_time': LaunchConfiguration('use_sim_time'),
-                    'velocity_kp': [15.0, 15.0, 15.0],
-                    'velocity_ki': [1.0, 1.0, 1.0],
-                    'velocity_kd': [1.0, 1.0, 1.0],
+                    'velocity_kp': [5.0, 5.0, 5.0],
+                    'velocity_ki': [0.5, 0.5, 0.5],
+                    'velocity_kd': [0.0, 0.0, 0.0],
                     'effort_limit': 24.0,
                     'control_rate': 100.0,
                     'integral_limit': 1.0,
                     'use_feedforward': True,
+                    'urdf_path': '/home/prime/kinematic_project_ws/src/hexapod_description/robot/visual/hexapod.urdf',
+                    'use_gravity_compensation': True,
                 }],
                 remappings=[
                     ('joint_states', f'/hexapod/leg_{leg_id}/joint_states'),
@@ -299,9 +289,9 @@ def generate_launch_description():
         )
         
         # -----------------------------------------------------------
-        # Forward Kinematics (Optional - for monitoring)
+        # Forward Kinematics (Optional - monitoring)
         # -----------------------------------------------------------
-        leg_nodes.append(
+        all_leg_nodes.append(
             Node(
                 package='hexapod',
                 executable='forward_position_kinematic.py',
@@ -312,7 +302,6 @@ def generate_launch_description():
                     'leg_id': leg_id,
                     'use_sim_time': LaunchConfiguration('use_sim_time'),
                     'update_rate': 100.0,
-                    # Link parameters (from URDF)
                     'knee_joint_x': 0.078424,
                     'knee_joint_y': -0.0031746,
                     'knee_joint_z': 0.0010006,
@@ -333,12 +322,14 @@ def generate_launch_description():
                 ],
             )
         )
-        
-        # Add this leg's nodes with delay
-        nodes_to_launch.append(TimerAction(
-            period=leg_start_delay,
-            actions=leg_nodes
-        ))
+    
+    # =================================================================
+    # CRITICAL FIX: Launch ALL legs at the SAME TIME (4.0s) ✅
+    # =================================================================
+    nodes_to_launch.append(TimerAction(
+        period=4.0,
+        actions=all_leg_nodes  # All 42 leg nodes start together!
+    ))
     
     # Return launch description
     return LaunchDescription([
