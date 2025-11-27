@@ -31,6 +31,11 @@ class GaitPlanner(Node):
         self.declare_parameter('num_legs', 6)
         self.declare_parameter('num_waypoints', 8)
         
+        # Default cmd_vel values (when no external command is received)
+        self.declare_parameter('default_linear_x', 0.0)
+        self.declare_parameter('default_linear_y', 0.0)
+        self.declare_parameter('default_angular_z', 0.0)
+        
         # Get parameters
         self.default_gait = self.get_parameter('default_gait_type').value
         self.max_linear_x = self.get_parameter('max_linear_x').value
@@ -43,8 +48,16 @@ class GaitPlanner(Node):
         self.num_legs = self.get_parameter('num_legs').value
         self.num_waypoints = self.get_parameter('num_waypoints').value
         
-        # State variables
+        # Get default cmd_vel values
+        default_linear_x = self.get_parameter('default_linear_x').value
+        default_linear_y = self.get_parameter('default_linear_y').value
+        default_angular_z = self.get_parameter('default_angular_z').value
+        
+        # State variables - initialize with default velocity
         self.current_cmd_vel = Twist()
+        self.current_cmd_vel.linear.x = default_linear_x
+        self.current_cmd_vel.linear.y = default_linear_y
+        self.current_cmd_vel.angular.z = default_angular_z
         self.filtered_velocity = Twist()
         self.current_gait_type = self.default_gait
         self.gait_phase = 0.0  # Phase tracker [0, 1]

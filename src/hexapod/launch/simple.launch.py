@@ -78,12 +78,16 @@ def generate_launch_description():
         parameters=[{
             'use_sim_time': LaunchConfiguration('use_sim_time'),
             'default_gait_type': 0,
-            'max_linear_x': 0.3,
+            'max_linear_x': 2.0,
             'max_linear_y': 0.2,
             'max_angular_z': 1.0,
             'step_height': 0.03,
-            'step_length_scale': 0.05,
-            'cycle_time': 2.0,  # Increased from 1.0 to slow down leg movement
+            'step_length_scale': 0.5,  # Increased from 0.05 to make feet step further
+            'cycle_time': 20.0,  # Increased to slow down leg movement
+            # Default cmd_vel values (robot will walk forward at startup)
+            'default_linear_x': 0.1,  # 0.1 m/s forward
+            'default_linear_y': 0.0,
+            'default_angular_z': 0.0,
         }],
         remappings=[
             ('cmd_vel', '/cmd_vel'),
